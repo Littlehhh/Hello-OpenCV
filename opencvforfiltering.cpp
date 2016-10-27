@@ -1,10 +1,18 @@
 #include<opencv2/opencv.hpp>
+#include<iostream>
 using namespace cv;
 using namespace std;
 void Menu()
 {
+	cout << endl;
+	cout << endl;
+	
+	cout << "\t\tPowered by OpenCV" << endl;
+	cout << endl;
 	cout << "\t\t\t\t   1 高斯噪声处理" << endl;
 	cout << "\t\t\t\t   2 椒盐噪声处理" << endl;
+	
+	cout << "一个小问题：每次选完选项看到图之后请先按任意键或者将所有图关闭之后再进行下面的操作" << endl;
 	//cout << "\t\t\t\t   1 高斯噪声原始图" << endl;
 	//cout << "\t\t\t\t   2 椒盐噪声原始图" << endl;
 	//cout << "\t\t\t\t   3 高斯噪声均值滤波" << endl;
@@ -14,7 +22,8 @@ void Menu()
 	//cout << "\t\t\t\t   7 高斯噪声高斯滤波" << endl;
 }
 int main()
-{	//定义Mat类对象并读入图片
+{			//定义Mat类对象并读入图片
+	system("cls");
 	Mat input_salt = imread("circuitboardNoise-salt.tif");
 	Mat input_gaussian = imread("circuitboardNoise-gaussian.tif");
 	Mat outImg_ave,outImg_median,outImg_gaussian;
@@ -28,9 +37,9 @@ int main()
 		switch (select)
 		{	//显示图片
 		case 1:	imshow("高斯噪声原图像", input_gaussian); 
-			blur(input_gaussian, outImg_ave, Size(3, 3));
-			medianBlur(input_gaussian, outImg_median, 3);
-			GaussianBlur(input_gaussian, outImg_gaussian, Size(3, 3),0,0);
+			blur(input_gaussian, outImg_ave, Size(5, 5));
+			medianBlur(input_gaussian, outImg_median, 5);
+			GaussianBlur(input_gaussian, outImg_gaussian, Size(5, 5),0,0);
 			imshow("高斯噪声均值滤波处理图像", outImg_ave);
 			imshow("高斯噪声中值滤波处理图像", outImg_median);
 			imshow("高斯噪声高斯滤波处理图像", outImg_ave); waitKey(0); break;
