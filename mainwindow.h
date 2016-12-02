@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <opencv2/opencv.hpp>
-
+#include "DFT.h"
 #include <QDebug>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -25,14 +25,16 @@ public:
     void display(cv::Mat mat);
 private slots:
     void on_pushButton_clicked();
-
-
-    void on_fft_clicked();
+    void on_comboBox_currentIndexChanged(int index);
+    void on_filter_clicked();
+    void on_horizontalSlider_valueChanged();
 
 private:
     Ui::MainWindow *ui;
     cv::Mat image;
     QImage img;
+    myDFT dft;
+    int filterType;
 
 };
 

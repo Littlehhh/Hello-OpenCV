@@ -9,14 +9,20 @@ using namespace std;
 
 class myDFT {
 private:
-    Mat srcImage, complexI, dst;
+    Mat srcImage, complexI, dst, filter, filter_result;
 public:
-	explicit myDFT(const String &filename);
+        myDFT();
+    explicit myDFT(const String &filename);
 	explicit myDFT(Mat &srcImg);
+        void getsrcImage(Mat &Image);
 		void Transform();
 		void srcImageShow();
 		void resultShow();		
+        void Filter_mask(int type,int size);
+        void Filter();
         Mat& getdst();
+        Mat& getfilter();
+        Mat& getfilter_result();
 };
 
 #endif

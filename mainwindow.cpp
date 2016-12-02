@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    filterType = ui->comboBox->currentIndex();
 }
 
 MainWindow::~MainWindow()
@@ -22,21 +23,8 @@ void MainWindow::on_pushButton_clicked()
      QString filename = QFileDialog::getOpenFileName(this,tr("Open Image"),"",tr("Image File(*.bmp *.tif *.jpg *.jpeg *.png)"));
      QTextCodec *code = QTextCodec::codecForName("gb18030");
      std::string name = code->fromUnicode(filename).data();
-     //image = cv::imread(name,0);
-     myDFT img(name);
-     img.Transform();
-     img.resultShow();
-     image = img.getdst();
-	 vector<int> compression_params;
-	 compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
-     compression_params.push_back(9);
-	 imwrite("123.png",image, compression_params);
-	 namedWindow("test");
-	 imshow("test", image);
-     waitKey(10);
-     image.convertTo(image,1);
-
-     image = image*255;
+     image = cv::imread(name,0);
+     img = QImage(filename);
      if(!image.data)
      {
          QMessageBox msgBox;
@@ -44,7 +32,26 @@ void MainWindow::on_pushButton_clicked()
          msgBox.exec();
      }
      else
-        display(image);
+     {
+
+         ui->label->setPixmap(QPixmap::fromImage(img));
+         ui->label->resize(ui->label->pixmap()->size());
+         ui->label->show();
+
+         dft.getsrcImage(image);
+         dft.Transform();
+         dft.resultShow();
+
+         vector<int> compression_params;
+         compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+         compression_params.push_back(9);
+         imwrite("spectrum.png",dft.getdst()*255, compression_params);
+         QImage fftshow("spectrum.png");
+         ui->label_2->setPixmap(QPixmap::fromImage(fftshow));
+         ui->label_2->resize(ui->label_2->pixmap()->size());
+         ui->label_2->show();
+     }
+
 }
 
 void MainWindow::display(cv::Mat mat)
@@ -84,49 +91,67 @@ void MainWindow::display(cv::Mat mat)
 
 //        img.setColorTable( sColorTable );
         //QImage img(mat.cols, mat.rows, QImage::Format_Indexed8);
-        // Set the color table (used to translate colour indexes to qRgb values)
-//        img.setColorCount(256);
-//        for(int i = 0; i < 256; i++)
-//        {
-//            img.setColor(i, qRgb(i, i, i));
-//        }
-//        // Copy input Mat
-//        uchar *pSrc = mat.data;
-//        for(int row = 0; row < mat.rows; row ++)
-//        {
-//            uchar *pDest = img.scanLine(row);
-//            memcpy(pDest, pSrc, mat.cols);
-//            pSrc += mat.step;
-//        }
     }
-  //  img.save("456.jpg", "JPG");
-    qDebug()<<img.allGray()<<img.alphaChannel()<<img.isGrayscale();
     ui->label->setPixmap(QPixmap::fromImage(img));
-    ui->label->resize(ui->label->pixmap()->size());
+//    label->setPixmap(QPixmap::fromImage(*ppm));
+//    this->setWidget(label);
+//    /*设置窗口最大高度和宽度为1024*768*/
+//    this->setMaximumHeight(768);
+//    this->setMaximumWidth(1024);
+//    this->resize(QSize( ppm->width()+5, ppm->height() +5));
+
+    //ui->label->resize(ui->label->pixmap()->size());
+    //ui->scrollArea->resize(ui->label->size());
     ui->label->show();
 }
 
-void MainWindow::on_fft_clicked()
+
+
+
+void MainWindow::on_comboBox_currentIndexChanged(int index)
 {
-//    myDFT fft(this->image);
-//    fft.Transform();
-    QString filename = QFileDialog::getOpenFileName(this,tr("Open Image"),"",tr("Image File(*.bmp *.tif *.jpg *.jpeg *.png)"));
-    QTextCodec *code = QTextCodec::codecForName("gb18030");
-    std::string name = code->fromUnicode(filename).data();
-        QImage img(filename);
-//    cv::Mat rgb = fft.getdst();
-//    QImage img;
-//    if(rgb.channels()==3)
-//    {
-//        cv::cvtColor(rgb,rgb,CV_BGR2RGB);
-//        img = QImage((const uchar*)(rgb.data),rgb.cols,rgb.rows,rgb.cols*rgb.channels(),QImage::Format_RGB888);
-//    }
-//    else
-//    {
-//        img = QImage((const uchar*)(rgb.data),rgb.cols,rgb.rows,rgb.cols*rgb.channels(),QImage::Format_Indexed8);
-//    }
-    ui->label_2->setPixmap(QPixmap::fromImage(img));
-    ui->label_2->resize(ui->label_2->pixmap()->size());
-    ui->label_2->show();
+
+        filterType = index;
 }
 
+
+void MainWindow::on_filter_clicked()
+{
+    if(!image.data)
+    {
+        QMessageBox msgBox;
+        msgBox.setText(tr("image data is null"));
+        msgBox.exec();
+    }
+    else
+    {
+        //滤波器生成及显示
+        int value = ui->horizontalSlider->value();
+        dft.Filter_mask(filterType,value);
+        vector<int> compression_params;
+        compression_params.push_back(CV_IMWRITE_PNG_COMPRESSION);
+        compression_params.push_back(9);
+        imwrite("filter.png",dft.getfilter()*255, compression_params);
+        QImage fftshow("filter.png");
+        ui->label_3->setPixmap(QPixmap::fromImage(fftshow));
+        ui->label_3->resize(ui->label_3->pixmap()->size());
+        ui->label_3->show();
+
+        //滤波结果及显示
+        dft.Filter();
+        vector<int> compression_params1;
+        compression_params1.push_back(CV_IMWRITE_PNG_COMPRESSION);
+        compression_params1.push_back(9);
+        imwrite("filter_result.png",dft.getfilter_result()*255, compression_params1);
+        QImage show("filter_result.png");
+        ui->label_4->setPixmap(QPixmap::fromImage(show));
+        ui->label_4->resize(ui->label_4->pixmap()->size());
+        ui->label_4->show();
+    }
+}
+
+void MainWindow::on_horizontalSlider_valueChanged()
+{
+
+        on_filter_clicked();
+}
