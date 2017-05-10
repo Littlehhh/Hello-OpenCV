@@ -1,5 +1,7 @@
 ﻿  OpenCV_Tutorial_test.cpp
 d:\opencv\opencv\build\include\opencv2\core\mat.hpp(1965): warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
-f:\文档\opencv\learning opencv\hello-opencv\opencv_tutorial\opencv_tutorial_test_by_cpp\opencv_tutorial_test\opencv_tutorial_test.cpp(26): warning C4930: “cv::Mat M10(void)”: 未调用原型函数(是否是有意用变量定义的?)
+d:\opencv\opencv\build\include\opencv2\core\persistence.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
+d:\opencv\opencv\build\include\opencv2\core\utility.hpp : warning C4819: 该文件包含不能在当前代码页(936)中表示的字符。请将该文件保存为 Unicode 格式以防止数据丢失
   OpenCV_Tutorial_test.vcxproj -> F:\文档\OpenCV\Learning OpenCV\Hello-OpenCV\OpenCV_Tutorial\OpenCV_Tutorial_test_by_CPP\x64\Debug\OpenCV_Tutorial_test.exe
   OpenCV_Tutorial_test.vcxproj -> F:\文档\OpenCV\Learning OpenCV\Hello-OpenCV\OpenCV_Tutorial\OpenCV_Tutorial_test_by_CPP\x64\Debug\OpenCV_Tutorial_test.pdb (Full PDB)

@@ -33,4 +33,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="test.jpg">
+      <Filter>源文件</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
