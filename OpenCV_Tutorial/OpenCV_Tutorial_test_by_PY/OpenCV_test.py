@@ -24,6 +24,7 @@ img = cv2.imread('test.jpg')
 
 img2 = img[:,:,::-1]  #numpy ways
 # three ways for BGR2RGB
+
 img2
 plt.imshow(img2)
 plt.show()
