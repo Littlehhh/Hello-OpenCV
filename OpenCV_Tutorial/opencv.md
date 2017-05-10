@@ -11,7 +11,7 @@ OpenCV Tutorial
 ### Visual Studio + OpenCV (for C++)
   [Visual Studio配置OpenCV.pdf
 ](https://github.com/Littlehhh/Hello-OpenCV/blob/master/OpenCV_Tutorial/Visual%20Studio%E9%85%8D%E7%BD%AEOpenCV.pdf)
-### Python 3.6 + OpenCV (for Python)
+### Python + OpenCV (for Python)
   1. 安装 Anaconda (Python的科学计算发行版)
   [`Anaconda介绍及下载地址`](https://www.continuum.io/)
   2. 下载编译好的 OpenCV for Python 的 whl 文件  
@@ -30,4 +30,13 @@ OpenCV Tutorial
 The Basic Image Container   (核心容器 Mat)
 ### Mat Constructor (Mat类构造函数)
   * Mat() //无参构造函数
-  * Mat(int rows,int cols,int type) 	
+  * Mat(int rows,int cols,int type)
+  * Mat(Size size, int type);
+  * Mat(int rows, int cols, int type, const Scalar& s);
+  * Mat(Size size, int type, const Scalar& s);
+  * Mat(int ndims, const int* sizes, int type);
+  * Mat(int ndims, const int* sizes, int type, const Scalar& s);
+  * Mat(int rows, int cols, int type, void* data, size_t step=AUTO_STEP);
+  * Mat(const Mat& m);
+  * Mat(int rows, int cols, int type, void* data, size_t step=AUTO_STEP);
+  * Mat(Size size, int type, void* data, size_t step=AUTO_STEP);

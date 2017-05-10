@@ -8,6 +8,7 @@ using namespace cv;
 
 int main()
 {
+	Mat A();
     return 0;
 }
 
