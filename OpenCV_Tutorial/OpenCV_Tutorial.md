@@ -1,8 +1,8 @@
 OpenCV Tutorial
 ====
 ****
-### Author: Hui Wang
-### E-mail: 1061659563@qq.com or wanghuichn@yahoo.com
+#### Author: Hui Wang
+#### E-mail: 1061659563@qq.com or wanghuichn@yahoo.com
 ****
 ## CONTENT
 * [配置 OpenCV](##配置OpenCV)
@@ -87,10 +87,6 @@ class A{//for a instance
   * Mat(const Mat& m, const Range& rowRange, const Range& colRange=Range::all());
   * Mat(const Mat& m, const Rect& roi);
   * Mat(const Mat& m, const Range* ranges);
-#### 拷贝构造函数（深拷贝）full copy
-  * Mat clone() const;
-  * void copyTo( OutputArray m ) const;
-  * void copyTo( OutputArray m, InputArray mask ) const;
 ### Mat Common Functions
   * void resize(size_t sz);//Changes the number of matrix rows.
   * size_t elemSize() const;//返回矩阵（元素*通道）字节数
@@ -118,6 +114,10 @@ class A{//for a instance
   * static MatExpr ones(int ndims, const int* sz, int type);
   * static MatExpr eye(int rows, int cols, int type);
   * static MatExpr eye(Size size, int type);
+#### 拷贝函数（深拷贝）full copy
+  * Mat clone() const;
+  * void copyTo( OutputArray m ) const;
+  * void copyTo( OutputArray m, InputArray mask ) const;
 ### Function Parameters (上述函数参数)
   * ndims – Array dimensionality.
   * rows – Number of rows in a 2D array.

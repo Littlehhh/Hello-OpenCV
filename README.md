@@ -20,3 +20,7 @@ Learn OpenCV Library by C++ & python
   * Something_insteresting
     - Graph Sort
   * OpenCV_Tutorial
+    - [x] Configuration
+    - [ ] Core
+      - [x] Mat Class
+      - [ ] Other Basic Class
