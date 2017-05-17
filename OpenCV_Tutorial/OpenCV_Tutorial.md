@@ -154,3 +154,22 @@ class A{//for a instance
   * steps – Array of ndims-1 steps in case of a multi-dimensional array (the last step is always
   set to the element size). If not specified, the matrix is assumed to be continuous.
   * ranges – Array of selected ranges of m along each dimensionality
+## Other Basic Class
+> Attention: class_ means a template class
+>> Here are some useful functions, but not the all.
+### Point_
+  * Point_ ( _Tp _x, _Tp _y)
+  * Point_ (const Point_ &pt)
+  * Point_ (const Size_< _Tp > &sz)
+  * Point_ (const Vec< _Tp, 2 > &v)
+### Size_
+* Size_ (_Tp _width, _Tp _height)
+* Size_ (const Size_ &sz)
+* Size_ (const Point_< _Tp > &pt)
+### Range
+* Range (int _start, int _end)
+* static Range::all()
+### Scalar_
+* Scalar_ (_Tp v0, _Tp v1, _Tp v2=0, _Tp v3=0)
+* Scalar_ (_Tp v0)
+* Scalar_ (const Vec< _Tp2, cn > &v)
