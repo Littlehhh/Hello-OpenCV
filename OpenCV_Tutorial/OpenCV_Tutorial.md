@@ -214,7 +214,7 @@ int main()
 ## Access to the Mat pixel
 A simple color reduction method
 // 将256色缩减为26色
-$$I_{new} = \frac {I_{odd}} {10} * 10 $$
+$$I_{new} = \frac {I_{odd}} {10} * 10$$
 C++ int操作会自动取整
 
 ```C++
