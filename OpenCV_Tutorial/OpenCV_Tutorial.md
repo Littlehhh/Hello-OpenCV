@@ -212,3 +212,143 @@ int main()
 * Scalar_ (_Tp v0)
 * Scalar_ (const Vec< _Tp2, cn > &v)
 ## Access to the Mat pixel
+A simple color reduction method
+// 将256色缩减为26色
+$$I_{new} = \frac {I_{odd}} {10} * 10 $$
+C++ int操作会自动取整
+
+```C++
+//create the lookup table
+uchar table[256];
+for (int i = 0; i < 256; ++i)
+   table[i] = (uchar)(divideWith * (i/divideWith));
+```
+### The efficient way
+C语言风格的访问方法
+```C++
+Mat& ScanImageAndReduceC(Mat& I, const uchar* const table)
+{
+    // accept only char type matrices
+    CV_Assert(I.depth() == CV_8U);
+    int channels = I.channels();
+    int nRows = I.rows;
+    int nCols = I.cols * channels;
+    //如果Mat在内存中是连续存储的么可以直接用一个指针从头访问到尾
+    if (I.isContinuous())
+    {
+        nCols *= nRows;
+        nRows = 1;
+    }
+    int i,j;
+    uchar* p;
+    for ( i = 0; i < nRows; ++i)
+    {
+        p = I.ptr<uchar>(i);//取每一行的行指针
+        for ( j = 0; j < nCols; ++j)
+        {
+            p[j] = table[p[j]];
+        }
+    }
+    return I;
+}
+```
+### The iterator (safe) method
+Mat类迭代器方法，十分安全，但是影响效率
+```C++
+Mat& ScanImageAndReduceIterator(Mat& I, const uchar* const table)
+{
+    // accept only char type matrices
+    CV_Assert(I.depth() == CV_8U);
+    // A function for DEBUG MODE inherited from C++ standard library
+    const int channels = I.channels();
+    switch(channels)
+    {
+    case 1:
+        {
+            MatIterator_<uchar> it, end;
+            // 取Mat的头、尾迭代器  灰度模式下
+            for( it = I.begin<uchar>(), end = I.end<uchar>(); it != end; ++it)
+                *it = table[*it];
+            break;
+        }
+    case 3:
+        {
+            MatIterator_<Vec3b> it, end;
+            // 取Mat的头、尾迭代器  RGB模式下
+            for( it = I.begin<Vec3b>(), end = I.end<Vec3b>(); it != end; ++it)
+            {
+                (*it)[0] = table[(*it)[0]];
+                (*it)[1] = table[(*it)[1]];
+                (*it)[2] = table[(*it)[2]];
+            }
+        }
+    }
+    return I;
+}
+```
+### On-the-fly address calculation with reference returning
+动态地址计算 更慢的方法 但是可以随机访问
+A Common function in Mat class
+Mat.at<T>(rows,cols);
+```C++
+Mat& ScanImageAndReduceRandomAccess(Mat& I, const uchar* const table)
+{
+    // accept only char type matrices
+    CV_Assert(I.depth() == CV_8U);
+    // A function for DEBUG MODE inherited from C++ standard library
+    const int channels = I.channels();
+    switch(channels)
+    {
+    case 1:
+        {
+            for( int i = 0; i < I.rows; ++i)
+                for( int j = 0; j < I.cols; ++j )
+                    I.at<uchar>(i,j) = table[I.at<uchar>(i,j)];
+            break;
+        }
+    case 3:
+        {
+            Mat_<Vec3b> _I = I;
+            for( int i = 0; i < I.rows; ++i)
+            for( int j = 0; j < I.cols; ++j )
+               {
+                   _I(i,j)[0] = table[_I(i,j)[0]];
+                   _I(i,j)[1] = table[_I(i,j)[1]];
+                   _I(i,j)[2] = table[_I(i,j)[2]];
+            }
+         I = _I;
+         break;
+        }
+    }
+    return I;
+}
+
+```
+### The Core Function
+void cv::LUT 	( 	InputArray  	src,
+		InputArray  	lut,
+		OutputArray  	dst
+  ) 	
+```C++
+Mat lookUpTable(1, 256, CV_8U);
+uchar* p = lookUpTable.ptr();
+for( int i = 0; i < 256; ++i)
+    p[i] = table[i];
+
+LUT(I, lookUpTable, J);
+```
+### Measure Time
+Some codes for Measure Time
+```C++
+double t = (double)getTickCount();
+// do something ...
+t = ((double)getTickCount() - t)/getTickFrequency();
+cout << "Times passed in seconds: " << t << endl;
+```
+### Performance Difference
+|Method|Time|
+|:------:|:----:|
+|Efficient Way|0.0367628s|
+|Iterator|1.40072s|
+|On-The-Fly RA|2.23297s|
+|LUT function|0.0128981s|
