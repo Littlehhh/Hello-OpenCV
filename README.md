@@ -24,8 +24,4 @@ Learn OpenCV Library by C++ & python
     - [ ] Core
       - [x] Mat Class
       - [x] Other Basic Class
-<<<<<<< HEAD
       - [x] Access to the Mat pixel
-=======
-      - [x] 
->>>>>>> origin/master
