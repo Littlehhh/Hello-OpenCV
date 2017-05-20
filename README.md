@@ -23,4 +23,5 @@ Learn OpenCV Library by C++ & python
     - [x] Configuration
     - [ ] Core
       - [x] Mat Class
-      - [ ] Other Basic Class
+      - [x] Other Basic Class
+      - [x] 
