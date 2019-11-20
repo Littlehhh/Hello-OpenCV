@@ -21,7 +21,7 @@ Learn OpenCV Library by C++ & python
     - Graph Sort
   * [OpenCV_Tutorial](OpenCV_Tutorial/OpenCV_Tutorial.md)
     - [x] Configuration
-    - [ ] Core
+    - [x] Core
       - [x] Mat Class
       - [x] Other Basic Class
       - [x] Access to the Mat pixel
