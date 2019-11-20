@@ -19,7 +19,7 @@ Learn OpenCV Library by C++ & python
       - Sobel
   * Something_insteresting
     - Graph Sort
-  * OpenCV_Tutorial
+  * [OpenCV_Tutorial](OpenCV_Tutorial/OpenCV_Tutorial.md)
     - [x] Configuration
     - [ ] Core
       - [x] Mat Class
